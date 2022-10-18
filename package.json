@@ -1,0 +1,33 @@
+{
+  "name": "wagmi-connector",
+  "version": "1.0.0",
+  "description": "Wagmi connector for the Sequence wallet",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "check": "npm run lint && npm run format",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xsequence/wagmi-connector.git"
+  },
+  "author": "0xSequence",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0xsequence/wagmi-connector/issues"
+  },
+  "homepage": "https://github.com/0xsequence/wagmi-connector#readme",
+  "devDependencies": {
+    "prettier": "^2.7.1",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "0xsequence": "^0.42.8",
+    "wagmi": "^0.7.5"
+  }
+}
