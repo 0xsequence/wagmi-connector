@@ -6,7 +6,6 @@ import { Connector, ConnectorData, ConnectorNotFoundError, UserRejectedRequestEr
 
 interface Options {
   connect?: ConnectOptions;
-  shimDisconnect?: boolean;
 }
 
 sequence.initWallet('polygon');
