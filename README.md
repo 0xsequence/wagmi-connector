@@ -1,23 +1,24 @@
 # wagmi-connector
+
 Wagmi connector for the [Sequence](https://sequence.xyz/) wallet.
 
 ## install
 
 ```js
-  npm install 0xsequence/wagmi-connector
+  npm install @0xsequence/wagmi-connector
 ```
 
 ## Params
-### chains
-Chains supported by app.
 
-### options.connect
-Connection options for the default networkId, name of the app, etc...
+* `chains` -- Chains supported by app.
+
+* `options.connect` -- Connection options for the default networkId, name of the app, etc...
+
 
 ## Example of usage
 
 ```js
-  import { SequenceConnector } from '0xsequence/wagmi-connector'
+  import { SequenceConnector } from '@0xsequence/wagmi-connector'
 
   const connectors = [
     new SequenceConnector({
