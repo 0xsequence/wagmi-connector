@@ -1,5 +1,5 @@
 {
-  "name": "wagmi-connector",
+  "name": "@0xsequence/wagmi-connector",
   "version": "1.0.0",
   "description": "Wagmi connector for the Sequence wallet",
   "main": "dist/index.js",
@@ -20,14 +20,14 @@
     "url": "https://github.com/0xsequence/wagmi-connector/issues"
   },
   "homepage": "https://github.com/0xsequence/wagmi-connector#readme",
+  "dependencies": {
+    "0xsequence": "^0.42.8",
+    "wagmi": "^0.7.5"
+  },
   "devDependencies": {
     "prettier": "^2.7.1",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.8.4"
-  },
-  "dependencies": {
-    "0xsequence": "^0.42.8",
-    "wagmi": "^0.7.5"
   }
 }
