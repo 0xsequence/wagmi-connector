@@ -2,11 +2,16 @@
 
 Wagmi connector for the [Sequence](https://sequence.xyz/) wallet.
 
-## install
+## Install
 
-```js
+```shell
   npm install @0xsequence/wagmi-connector
 ```
+or
+```shell
+  yarn add @0xsequence/wagmi-connector
+```
+
 
 ## Params
 
