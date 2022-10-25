@@ -1,6 +1,6 @@
 {
   "name": "@0xsequence/wagmi-connector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Wagmi connector for the Sequence wallet",
   "main": "dist/index.js",
   "scripts": {
@@ -20,6 +20,8 @@
     "url": "https://github.com/0xsequence/wagmi-connector/issues"
   },
   "homepage": "https://github.com/0xsequence/wagmi-connector#readme",
+  "dependencies": {
+  },
   "peerDependencies": {
     "0xsequence": ">=0.42.8",
     "wagmi": ">=0.7.5"
