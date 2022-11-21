@@ -23,15 +23,17 @@
   "dependencies": {
   },
   "peerDependencies": {
-    "0xsequence": ">=0.42.8",
-    "wagmi": ">=0.7.5"
+    "0xsequence": ">=0.43.0",
+    "wagmi": ">=0.7.5",
+    "ethers": ">=5.5"
   },
   "devDependencies": {
     "prettier": "^2.7.1",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.8.4",
-    "0xsequence": "^0.42.8",
-    "wagmi": "^0.7.5"
+    "0xsequence": "^0.43.0",
+    "wagmi": "^0.7.5",
+    "ethers": "^5.7.2"
   }
 }
