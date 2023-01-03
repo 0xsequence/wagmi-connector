@@ -19,7 +19,7 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
   connected = false;
   constructor({ chains, options }: { chains?: Chain[]; options?: Options }) {
     super({ chains, options });
-    sequence.initWallet(options?.connect?.networkId || 'polygon');
+    sequence.initWallet();
     this.options = options
     this.wallet = sequence.getWallet();
   }
