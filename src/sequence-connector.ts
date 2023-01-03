@@ -15,7 +15,7 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
   ready = true;
   provider: Web3Provider | null = null;
   wallet: Wallet;
-  options?: Options
+  options: Options | undefined
   connected = false;
   constructor({ chains, options }: { chains?: Chain[]; options?: Options }) {
     super({ chains, options });
