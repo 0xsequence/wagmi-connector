@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
     "declaration": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
-    "strict": true,
-    "skipLibCheck": true
+    "lib": ["es2018", "dom"],
+    "types": ["node"]
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "**/__tests__/*"],
-  "lib": ["es6", "dom"]
+  "include": [
+    "src/**/*"
+  ]
 }
