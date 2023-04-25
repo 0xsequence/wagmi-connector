@@ -13,13 +13,13 @@ export default [
   bundle({
     plugins: [esbuild()],
     output: [
+      // {
+      //   file: `${name}.js`,
+      //   format: 'cjs',
+      //   sourcemap: true,
+      // },
       {
         file: `${name}.js`,
-        format: 'cjs',
-        sourcemap: true,
-      },
-      {
-        file: `${name}.mjs`,
         format: 'es',
         sourcemap: true,
       },

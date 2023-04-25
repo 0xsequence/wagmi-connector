@@ -1,10 +1,9 @@
 {
   "name": "@0xsequence/wagmi-connector",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Wagmi connector for the Sequence wallet",
   "type": "module",
   "main": "dist/sequence-wagmi-connector.js",
-  "module": "dist/sequence-wagmi-connector.mjs",
   "typings": "dist/sequence-wagmi-connector.d.ts",
   "scripts": {
     "build": "rimraf ./dist && rollup -c",
