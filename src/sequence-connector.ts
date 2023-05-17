@@ -2,7 +2,12 @@ import { sequence } from '0xsequence';
 import { mainnetNetworks, testnetNetworks } from '@0xsequence/network';
 import type { ConnectOptions, Web3Provider } from '@0xsequence/provider';
 import { Wallet } from '@0xsequence/provider';
-import { Connector, ConnectorData, ConnectorNotFoundError, UserRejectedRequestError, Chain, Address } from 'wagmi';
+import {
+  createWalletClient,
+  custom,
+  UserRejectedRequestError
+} from 'viem'
+import { Connector, ConnectorData, Chain, ConnectorNotFoundError, Address } from 'wagmi';
 
 interface Options {
   connect?: ConnectOptions;
@@ -21,16 +26,16 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
     sequence.initWallet();
     this.wallet = sequence.getWallet();
   }
-  async connect(): Promise<Required<ConnectorData<Web3Provider>>> {
+  async connect(): Promise<Required<ConnectorData>> {
     if (!this.wallet.isConnected()) {
       // @ts-ignore-next-line
       this?.emit('message', { type: 'connecting' })
       const e = await this.wallet.connect(this.options?.connect);
       if (e.error) {
-        throw new UserRejectedRequestError(e.error);
+        throw new UserRejectedRequestError(new Error(e.error));
       }
       if (!e.connected) {
-        throw new UserRejectedRequestError('Wallet connection rejected');
+        throw new UserRejectedRequestError(new Error('Wallet connection rejected'));
       }
     }
 
@@ -47,9 +52,23 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
         id: chainId,
         unsupported: this.isChainUnsupported(chainId),
       },
-      provider,
     };
   }
+
+  async getWalletClient({ chainId }: { chainId?: number } = {}) {
+    const [provider, account] = await Promise.all([
+      this.getProvider(),
+      this.getAccount(),
+    ])
+    const chain = this.chains.find((x) => x.id === chainId)
+    if (!provider) throw new Error('provider is required.')
+    return createWalletClient({
+      account,
+      chain,
+      transport: custom(provider),
+    })
+  }
+
   async disconnect() {
     this.wallet.disconnect();
   }
