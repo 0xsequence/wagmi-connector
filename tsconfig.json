@@ -7,8 +7,7 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
     "lib": ["es2018", "dom"],
-    "types": ["node"],
-    "baseUrl": "."
+    "types": ["node"]
   },
   "include": [
     "src/**/*"
