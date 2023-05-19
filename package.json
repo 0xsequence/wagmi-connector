@@ -33,7 +33,7 @@
     "wagmi": ">=1.0.0"
   },
   "devDependencies": {
-    "0xsequence": "^0.43.26",
+    "0xsequence": "^0.43.29",
     "@types/node": "^18.16.0",
     "esbuild": "^0.17.18",
     "ethers": "^5.7.2",
