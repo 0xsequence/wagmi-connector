@@ -89,9 +89,6 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
     return this.wallet.getSigner();
   }
   async isAuthorized() {
-    if (!this.wallet) {
-      await this.connect();
-    }
     try {
       const account = await this.getAccount();
       return !!account;
