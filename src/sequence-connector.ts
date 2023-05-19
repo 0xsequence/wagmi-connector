@@ -21,8 +21,7 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
   }
   async connect(): Promise<Required<ConnectorData<Web3Provider>>> {
     if (!this.wallet) {
-      sequence.initWallet();
-      this.wallet = sequence.getWallet();
+      this.wallet = await sequence.initWallet();
     }
     if (!this.wallet.isConnected()) {
       // @ts-ignore-next-line
@@ -54,22 +53,19 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
   }
   async disconnect() {
     if (!this.wallet) {
-      sequence.initWallet();
-      this.wallet = sequence.getWallet();
+      this.wallet = await sequence.initWallet();
     }
     this.wallet.disconnect();
   }
-  getAccount() {
+  async getAccount() {
     if (!this.wallet) {
-      sequence.initWallet();
-      this.wallet = sequence.getWallet();
+      this.wallet = await sequence.initWallet();
     }
     return this.wallet.getAddress() as Promise<Address>;
   }
-  getChainId() {
+  async getChainId() {
     if (!this.wallet) {
-      sequence.initWallet();
-      this.wallet = sequence.getWallet();
+      this.wallet = await sequence.initWallet();
     }
     if (!this.wallet.isConnected()) {
       return this.connect().then(() => this.wallet.getChainId());
@@ -88,12 +84,14 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
   }
   async getSigner() {
     if (!this.wallet) {
-      sequence.initWallet();
-      this.wallet = sequence.getWallet();
+      this.wallet = await sequence.initWallet();
     }
     return this.wallet.getSigner();
   }
   async isAuthorized() {
+    if (!this.wallet) {
+      await this.connect();
+    }
     try {
       const account = await this.getAccount();
       return !!account;
