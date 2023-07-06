@@ -1,5 +1,5 @@
 import { sequence } from '0xsequence';
-import { mainnetNetworks, testnetNetworks } from '@0xsequence/network';
+import { findSupportedNetwork } from '@0xsequence/network';
 import type { ConnectOptions, Web3Provider } from '@0xsequence/provider';
 import { Wallet } from '@0xsequence/provider';
 import {
@@ -137,7 +137,7 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
     this?.emit('disconnect')
   };
   isChainUnsupported(chainId: number): boolean {
-    return !(mainnetNetworks.some((c) => c.chainId === chainId) || testnetNetworks.some((c) => c.chainId === chainId));
+    return !findSupportedNetwork(chainId);
   }
 }
 

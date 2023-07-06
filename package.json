@@ -27,13 +27,13 @@
     "abitype": "0.8.2"
   },
   "peerDependencies": {
-    "0xsequence": ">=0.43.0",
+    "0xsequence": ">=0.0.0-20230704142612",
     "ethers": ">=5.5",
     "viem": ">=0.3.28",
     "wagmi": ">=1.0.0"
   },
   "devDependencies": {
-    "0xsequence": "^0.43.29",
+    "0xsequence": "0.0.0-20230704142612",
     "@types/node": "^18.16.0",
     "esbuild": "^0.17.18",
     "ethers": "^5.7.2",
