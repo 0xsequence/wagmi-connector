@@ -10,7 +10,7 @@ import {
 import { Connector, ConnectorData, Chain, ConnectorNotFoundError, Address } from 'wagmi';
 
 interface Options {
-  connect?: ConnectOptions;
+  connect?: ConnectOptions & { walletAppURL?: string };
 }
 
 export class SequenceConnector extends Connector<Web3Provider, Options | undefined> {
@@ -25,9 +25,7 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
     super({ chains, options });
   }
   async connect(): Promise<Required<ConnectorData>> {
-    if (!this.wallet) {
-      this.wallet = await sequence.initWallet();
-    }
+    await this.initWallet()
     if (!this.wallet.isConnected()) {
       // @ts-ignore-next-line
       this?.emit('message', { type: 'connecting' })
@@ -71,30 +69,22 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
   }
 
   async disconnect() {
-    if (!this.wallet) {
-      this.wallet = await sequence.initWallet();
-    }
+    await this.initWallet()
     this.wallet.disconnect();
   }
   async getAccount()  {
-    if (!this.wallet) {
-      this.wallet = await sequence.initWallet();
-    }
+    await this.initWallet()
     return this.wallet.getAddress() as Promise<Address>;
   }
   async getChainId() {
-    if (!this.wallet) {
-      this.wallet = await sequence.initWallet();
-    }
+    await this.initWallet()
     if (!this.wallet.isConnected()) {
       return this.connect().then(() => this.wallet.getChainId());
     }
     return this.wallet.getChainId();
   }
   async getProvider() {
-    if(!this.wallet) {
-      this.wallet = await sequence.initWallet();
-    }
+    await this.initWallet()
     if (!this.provider) {
       const provider = this.wallet.getProvider();
       if (!provider) {
@@ -105,9 +95,7 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
     return this.provider;
   }
   async getSigner() {
-    if (!this.wallet) {
-      this.wallet = await sequence.initWallet();
-    }
+    await this.initWallet()
     return this.wallet.getSigner();
   }
   async isAuthorized() {
@@ -138,6 +126,16 @@ export class SequenceConnector extends Connector<Web3Provider, Options | undefin
   };
   isChainUnsupported(chainId: number): boolean {
     return !(chainId in networks)
+  }
+  private async initWallet(): Promise<void> {
+    if (!this.wallet) {
+      const walletAppURL = this.options.connect?.walletAppURL
+      if (walletAppURL) {
+        this.wallet = await sequence.initWallet(undefined, { walletAppURL })
+      } else {
+        this.wallet = await sequence.initWallet()
+      }
+    }
   }
 }
 
