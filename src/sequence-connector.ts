@@ -132,6 +132,11 @@ export class SequenceConnector extends Connector<sequence.provider.Web3Provider,
   }
 
   async switchChain(chainId: number): Promise<Chain> {
+    if (typeof chainId !== 'number') {
+      console.warn('chainId is not a number.')
+      throw new Error('chainId is not a number.')
+    }
+
     await this.initWallet()
 
     // We import the networks from 0xsequence and check if the chainId is supported
@@ -184,10 +189,12 @@ export class SequenceConnector extends Connector<sequence.provider.Web3Provider,
     // and call our own switchChain method
     const send = provider.send.bind(provider)
     const sendAsync = provider.sendAsync.bind(provider)
+    const switchChain = this.switchChain.bind(this) as (chainId: number) => Promise<Chain>
 
     provider.send = (method: string, params: any[], chainId?: number) => {
       if (method === 'wallet_switchEthereumChain') {
-        return this.switchChain(params[0])
+        const args = params[0] as { chainId: string } | number | string
+        return switchChain(normalizeChainId(args))
       }
       return send(method, params, chainId)
     }
@@ -198,7 +205,8 @@ export class SequenceConnector extends Connector<sequence.provider.Web3Provider,
       chainId?: number
     ) => {
       if (request.method === 'wallet_switchEthereumChain') {
-        return this.switchChain(request.params[0]).then(
+        const args = request.params[0] as { chainId: string } | number | string
+        return switchChain(normalizeChainId(args)).then(
           (chain) => callback(null, { result: chain }),
           (error) => callback(error, null)
         )
@@ -211,7 +219,8 @@ export class SequenceConnector extends Connector<sequence.provider.Web3Provider,
   }
 }
 
-function normalizeChainId(chainId: string | number | bigint) {
+function normalizeChainId(chainId: string | number | bigint | { chainId: string }) {
+  if (typeof chainId === 'object') return normalizeChainId(chainId.chainId)
   if (typeof chainId === 'string') return Number.parseInt(chainId, chainId.trim().substring(0, 2) === '0x' ? 16 : 10)
   if (typeof chainId === 'bigint') return Number(chainId)
   return chainId
