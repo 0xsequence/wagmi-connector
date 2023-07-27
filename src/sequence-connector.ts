@@ -13,6 +13,7 @@ import {
 } from 'wagmi'
 
 interface Options {
+  defaultNetwork?: sequence.network.ChainIdLike,
   connect?: sequence.provider.ConnectOptions & { walletAppURL?: string }
 }
 
@@ -24,15 +25,14 @@ export class SequenceConnector extends Connector<sequence.provider.SequenceProvi
 
   provider: sequence.provider.SequenceProvider
 
-  constructor({ defaultNetwork, chains, options }: {
-    defaultNetwork?: sequence.network.ChainIdLike,
+  constructor({ chains, options }: {
     chains?: Chain[],
     options?: Options
   }) {
     super({ chains, options })
 
     this.provider = sequence.initWallet({
-      defaultNetwork,
+      defaultNetwork: options?.defaultNetwork,
       transports: {
         walletAppURL: options?.connect.walletAppURL,
       },
