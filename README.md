@@ -29,9 +29,10 @@ or
     new SequenceConnector({
       chains,
       options: {
+        defaultNetwork: 137,
+
         connect: {
-          app: 'Demo-app',
-          networkId: 137
+          app: 'Demo-app'
         }
       }
     }),
