@@ -1,6 +1,6 @@
 {
   "name": "@0xsequence/wagmi-connector",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Wagmi connector for the Sequence wallet",
   "type": "module",
   "main": "dist/sequence-wagmi-connector.js",
@@ -27,13 +27,13 @@
     "abitype": "0.8.2"
   },
   "peerDependencies": {
-    "0xsequence": ">=1.0.0",
+    "0xsequence": ">=1.1.0 <2.0.0",
     "ethers": ">=5.5",
     "viem": ">=0.3.28",
     "wagmi": ">=1.0.0"
   },
   "devDependencies": {
-    "0xsequence": "0.0.0-20230727132905",
+    "0xsequence": ">=1.1.0",
     "@types/node": "^18.16.0",
     "esbuild": "^0.17.18",
     "ethers": "^5.7.2",
