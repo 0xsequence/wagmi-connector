@@ -15,6 +15,7 @@ import {
 interface Options {
   defaultNetwork?: sequence.network.ChainIdLike,
   connect?: sequence.provider.ConnectOptions & { walletAppURL?: string }
+  useEIP6492?: boolean
 }
 
 export class SequenceConnector extends Connector<sequence.provider.SequenceProvider, Options | undefined> {
@@ -36,6 +37,7 @@ export class SequenceConnector extends Connector<sequence.provider.SequenceProvi
       transports: {
         walletAppURL: options?.connect.walletAppURL,
       },
+      useEIP6492: options?.useEIP6492,
     })
 
     this.provider.on('chainChanged', (chainIdHex: string) => {
