@@ -36,6 +36,7 @@ export class SequenceConnector extends Connector<sequence.provider.SequenceProvi
       transports: {
         walletAppURL: options?.connect.walletAppURL,
       },
+      defaultEIP6492: true,
     })
 
     this.provider.on('chainChanged', (chainIdHex: string) => {
