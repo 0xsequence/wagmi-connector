@@ -1,6 +1,6 @@
 {
   "name": "@0xsequence/wagmi-connector",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "Wagmi connector for the Sequence wallet",
   "type": "module",
   "main": "dist/sequence-wagmi-connector.js",
