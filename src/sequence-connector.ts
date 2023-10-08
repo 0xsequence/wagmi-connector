@@ -58,7 +58,7 @@ export class SequenceConnector extends Connector<sequence.provider.SequenceProvi
     if (!this.provider.isConnected()) {
       // @ts-ignore-next-line
       this?.emit('message', { type: 'connecting' })
-      const e = await this.provider.connect(this.options?.connect ?? { app: 'RainbowKit app' })
+      const e = await this.provider.connect(this.options?.connect ?? { app: 'app' })
       if (e.error) {
         throw new UserRejectedRequestError(new Error(e.error))
       }
