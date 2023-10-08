@@ -12,7 +12,7 @@ import {
   Chain,
 } from 'wagmi'
 
-interface Options {
+export interface Options {
   defaultNetwork?: sequence.network.ChainIdLike,
   connect?: sequence.provider.ConnectOptions & { walletAppURL?: string }
 }
