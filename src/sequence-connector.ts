@@ -34,7 +34,7 @@ export class SequenceConnector extends Connector<sequence.provider.SequenceProvi
     this.provider = sequence.initWallet({
       defaultNetwork: options?.defaultNetwork,
       transports: {
-        walletAppURL: options?.connect.walletAppURL,
+        walletAppURL: options?.connect.walletAppURL || 'https://sequence.app',
       },
       defaultEIP6492: true,
       projectAccessKey: options?.connect?.projectAccessKey
