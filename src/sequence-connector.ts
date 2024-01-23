@@ -3,7 +3,8 @@ import { sequence } from '0xsequence'
 import {
   createWalletClient,
   custom,
-  UserRejectedRequestError
+  UserRejectedRequestError,
+  Hex
 } from 'viem'
 
 import {
@@ -27,7 +28,6 @@ export function sequenceWallet(params: SequenceParameters) {
   const id = 'sequence'
   const name = 'Sequence'
 
-
   let provider: sequence.provider.SequenceProvider
   type Provider = sequence.provider.SequenceProvider
   type Properties = {}
@@ -46,52 +46,76 @@ export function sequenceWallet(params: SequenceParameters) {
     name: 'Sequence',
     type: sequenceWallet.type,
     async setup() {
-      // provider.on('chainChanged', (chainIdHex: string) => {
-      //   // @ts-ignore-next-line
-      //   config.emitter.emit('change', { chain: { id: normalizeChainId(chainIdHex), unsupported: false } })
-      // })
+      provider.on('chainChanged', (chainIdHex: string) => {
+        // @ts-ignore-next-line
+        config.emitter.emit('change', { chain: { id: normalizeChainId(chainIdHex), unsupported: false } })
+      })
 
-      // provider.on('accountsChanged', (accounts: string[]) => {
-      //   // @ts-ignore-next-line
-      //   config.emitter.emit('accountsChanged', this.onAccountsChanged(accounts))
-      // })
+      provider.on('accountsChanged', (accounts: string[]) => {
+        // @ts-ignore-next-line
+        config.emitter.emit('accountsChanged', this.onAccountsChanged(accounts))
+      })
 
-      // provider.on('disconnect', () => {
-      //   onDisconnect()
-      // })
-    },
-    async connect({ chainId, isReconnecting } = {}) {
-      return ({
-        accounts: [],
-        chainId
+      provider.on('disconnect', () => {
+        this.onDisconnect()
       })
     },
-    async disconnect() {
+    async connect({ chainId, isReconnecting } = {}) {
+      if (!provider.isConnected()) {
+        // @ts-ignore-next-line
+        this?.emit('message', { type: 'connecting' })
+        const e = await this.provider.connect(this.options?.connect ?? { app: 'app' })
+        if (e.error) {
+          throw new UserRejectedRequestError(new Error(e.error))
+        }
+        if (!e.connected) {
+          throw new UserRejectedRequestError(new Error('Wallet connection rejected'))
+        }
+      }
 
+      const account = await this.getAccount()
+
+      return {
+        accounts: [account],
+        chainId: provider.getChainId()
+      }
+    },
+    async disconnect() {
+      provider.disconnect()
     },
     async getAccounts() {
-      return []
+      const account = await provider.getSigner().getAddress() as `0x${string}`
+
+      return [account]
     },
     async getProvider() {
       return provider
     },
     async isAuthorized() {
-      return true
+      try {
+        const account = await this.getAccount()
+        return !!account
+      } catch {
+        return false
+      }
     },
     async switchChain({ chainId }) {
       return config.chains[0]
     },
+    async getChainId() {
+      return 137
+    },
     async onAccountsChanged(accounts) {
-
+      return { account: accounts[0] }
     },
     async onChainChanged(chain) {
-
+      provider.setDefaultChainId(normalizeChainId(chain))
     },
     async onConnect(connectinfo) {
-
+      console.log('connected sequence wallet', connectinfo)
     },
     async onDisconnect() {
-
+      this?.emit('disconnect')
     }
   }))
 }

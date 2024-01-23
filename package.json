@@ -48,6 +48,6 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^5.0.4",
     "viem": "^2.0.6",
-    "wagmi": "^2.1.2"
+    "wagmi": "^2.5.0"
   }
 }
