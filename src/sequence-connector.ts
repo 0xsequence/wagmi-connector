@@ -84,6 +84,7 @@ export function sequenceWallet(params: SequenceParameters) {
     async getProvider() {
       try {
         const provider = sequence.getWallet()
+
         return provider
       } catch(e) {
         const provider = sequence.initWallet(projectAccessKey, {
@@ -93,6 +94,10 @@ export function sequenceWallet(params: SequenceParameters) {
           },
           defaultEIP6492: true,
         })
+
+        const chainId = await provider.getChainId()
+        config.emitter.emit('change', { chainId: normalizeChainId(chainId) })
+
         return provider
       }
     },
