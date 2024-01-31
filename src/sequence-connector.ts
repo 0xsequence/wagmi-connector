@@ -62,10 +62,10 @@ export function sequenceWallet(params: SequenceParameters) {
         }
       }
 
-      const account = await this.getAccounts()
+      const accounts = await this.getAccounts()
 
       return {
-        accounts: [account],
+        accounts: [...accounts],
         chainId: provider.getChainId()
       }
     },
