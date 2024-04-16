@@ -2,11 +2,19 @@
   "name": "@0xsequence/wagmi-connector",
   "version": "3.0.2",
   "description": "Wagmi connector for the Sequence wallet",
-  "type": "module",
-  "main": "dist/sequence-wagmi-connector.js",
-  "typings": "dist/sequence-wagmi-connector.d.ts",
+  "main": "dist/sequence-wagmi-connector.cjs.js",
+  "module": "dist/sequence-wagmi-connector.es.js",
+  "types": "dist/sequence-wagmi-connector.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/sequence-wagmi-connector.d.ts",
+      "import": "./dist/sequence-wagmi-connector.es.js",
+      "require": "./dist/sequence-wagmi-connector.cjs.js"
+    }
+  },
+  "files": ["dist"],
   "scripts": {
-    "build": "rimraf ./dist && rollup -c",
+    "build": "tsc && vite build",
     "clean": "rimraf ./dist",
     "typecheck": "tsc --noEmit",
     "format": "prettier --list-different --write './src/**/*.ts'",
@@ -31,15 +39,13 @@
   "devDependencies": {
     "0xsequence": "1.9.19",
     "@types/node": "^20.12.7",
-    "esbuild": "^0.20.2",
     "ethers": "^5.7.2",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "rollup": "^3.21.0",
-    "rollup-plugin-dts": "^6.1.0",
-    "rollup-plugin-esbuild": "^6.1.1",
     "typescript": "^5.4.5",
     "viem": "^2.9.19",
+    "vite": "^5.2.9",
+    "vite-plugin-dts": "^3.8.3",
     "vitest": "^1.5.0",
     "wagmi": "^2.5.20"
   }

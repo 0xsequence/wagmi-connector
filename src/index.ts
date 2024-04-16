@@ -1,1 +1,1 @@
-export * from './sequence-connector'
+export { sequenceWallet, type SequenceParameters } from './sequence-connector'

@@ -4,14 +4,13 @@
     "module": "esnext",
     "moduleResolution": "node",
     "declaration": true,
+    "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
     "skipLibCheck": true,
     "lib": ["es2018", "dom"],
-    "types": ["node"],
-    "baseUrl": "."
+    "types": ["node"]
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }
