@@ -15,7 +15,12 @@ export const config = createConfig({
 })
 
 test('setup', () => {
-  const connectorFn = sequenceWallet({ projectAccessKey: 'test' })
+  const connectorFn = sequenceWallet({
+    connectOptions: {
+      app: 'test',
+      projectAccessKey: 'test',
+    },
+  })
   const connector = config._internal.connectors.setup(connectorFn)
   expect(connector.name).toEqual('Sequence Wallet')
 })
