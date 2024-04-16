@@ -5,11 +5,7 @@ Wagmi connector for the [Sequence](https://sequence.xyz/) wallet.
 ## Install
 
 ```shell
-  npm install @0xsequence/wagmi-connector 0xsequence
-```
-or
-```shell
-  yarn add @0xsequence/wagmi-connector 0xsequence
+  pnpm install @0xsequence/wagmi-connector 0xsequence
 ```
 
 

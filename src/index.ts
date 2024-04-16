@@ -1,1 +1,1 @@
-export * from './sequence-connector';
+export * from './sequence-connector'
