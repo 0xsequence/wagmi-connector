@@ -6,6 +6,7 @@
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
+    "skipLibCheck": true,
     "lib": ["es2018", "dom"],
     "types": ["node"],
     "baseUrl": "."
