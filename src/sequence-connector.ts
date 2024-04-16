@@ -1,13 +1,13 @@
 import { sequence } from '0xsequence'
 
-import { UserRejectedRequestError, getAddress } from 'viem'
+import { UserRejectedRequestError, getAddress, hexToNumber } from 'viem'
 
 import { createConnector } from 'wagmi'
 
 export interface SequenceParameters {
+  connectOptions: sequence.provider.ConnectOptions
   walletAppURL?: string
   defaultNetwork?: sequence.network.ChainIdLike
-  connectOptions?: sequence.provider.ConnectOptions
 }
 
 sequenceWallet.type = 'sequence' as const
@@ -23,6 +23,9 @@ export function sequenceWallet(params: SequenceParameters) {
     async setup() {
       const provider = await this.getProvider()
 
+      provider.client.onConnect(connectDetails => {
+        this.onConnect?.({ chainId: connectDetails.chainId! })
+      })
       provider.on('chainChanged', this.onChainChanged.bind(this))
       provider.on('accountsChanged', this.onAccountsChanged.bind(this))
       provider.on('disconnect', this.onDisconnect.bind(this))
@@ -47,11 +50,9 @@ export function sequenceWallet(params: SequenceParameters) {
       }
 
       const accounts = await this.getAccounts()
+      const chainId = provider.getChainId()
 
-      return {
-        accounts,
-        chainId: provider.getChainId(),
-      }
+      return { accounts, chainId }
     },
 
     async disconnect() {
@@ -70,8 +71,7 @@ export function sequenceWallet(params: SequenceParameters) {
     async getChainId() {
       const provider = await this.getProvider()
 
-      const chainId = provider.getChainId()
-      return chainId
+      return provider.getChainId()
     },
 
     async getProvider() {
@@ -81,7 +81,12 @@ export function sequenceWallet(params: SequenceParameters) {
         return provider
       } catch (err) {
         const { connectOptions, defaultNetwork, walletAppURL } = params
-        const provider = sequence.initWallet(connectOptions?.projectAccessKey, {
+
+        if (!connectOptions.projectAccessKey) {
+          throw new Error('Missing projectAccessKey in connectOptions')
+        }
+
+        const provider = sequence.initWallet(connectOptions.projectAccessKey, {
           defaultNetwork: defaultNetwork,
           transports: {
             walletAppURL: walletAppURL || 'https://sequence.app',
@@ -89,7 +94,8 @@ export function sequenceWallet(params: SequenceParameters) {
           defaultEIP6492: true,
         })
         const chainId = provider.getChainId()
-        config.emitter.emit('change', { chainId: normalizeChainId(chainId) })
+
+        config.emitter.emit('change', { chainId })
 
         return provider
       }
@@ -106,11 +112,10 @@ export function sequenceWallet(params: SequenceParameters) {
 
     async switchChain({ chainId }) {
       const provider = await this.getProvider()
-
       const chain =
-        config.chains.find(c => c.id === chainId) || config.chains[0]
-      provider.setDefaultChainId(normalizeChainId(chainId))
+        config.chains.find(chain => chain.id === chainId) || config.chains[0]
 
+      provider.setDefaultChainId(chainId)
       config.emitter.emit('change', { chainId })
 
       return chain
@@ -124,18 +129,17 @@ export function sequenceWallet(params: SequenceParameters) {
 
     async onChainChanged(chain) {
       const provider = await this.getProvider()
+      const chainId = normalizeChainId(chain)
 
-      provider.setDefaultChainId(normalizeChainId(chain))
-      config.emitter.emit('change', { chainId: normalizeChainId(chain) })
+      provider.setDefaultChainId(chainId)
+      config.emitter.emit('change', { chainId })
     },
 
     async onConnect(connectInfo) {
       const accounts = await this.getAccounts()
+      const chainId = normalizeChainId(connectInfo.chainId)
 
-      config.emitter.emit('connect', {
-        accounts,
-        chainId: Number(connectInfo.chainId),
-      })
+      config.emitter.emit('connect', { accounts, chainId })
     },
 
     async onDisconnect() {
@@ -144,15 +148,23 @@ export function sequenceWallet(params: SequenceParameters) {
   }))
 }
 
-function normalizeChainId(
+const normalizeChainId = (
   chainId: string | number | bigint | { chainId: string }
-) {
-  if (typeof chainId === 'object') return normalizeChainId(chainId.chainId)
-  if (typeof chainId === 'string')
+): number => {
+  if (typeof chainId === 'object') {
+    return normalizeChainId(chainId.chainId)
+  }
+
+  if (typeof chainId === 'string') {
     return Number.parseInt(
       chainId,
       chainId.trim().substring(0, 2) === '0x' ? 16 : 10
     )
-  if (typeof chainId === 'bigint') return Number(chainId)
+  }
+
+  if (typeof chainId === 'bigint') {
+    return Number(chainId)
+  }
+
   return chainId
 }
