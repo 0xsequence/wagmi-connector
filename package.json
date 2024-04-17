@@ -1,6 +1,6 @@
 {
   "name": "@0xsequence/wagmi-connector",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "description": "Wagmi connector for the Sequence wallet",
   "main": "dist/sequence-wagmi-connector.cjs.js",
   "module": "dist/sequence-wagmi-connector.es.js",
@@ -12,7 +12,9 @@
       "require": "./dist/sequence-wagmi-connector.cjs.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc && vite build",
     "clean": "rimraf ./dist",
