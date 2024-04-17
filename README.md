@@ -11,26 +11,23 @@ Wagmi connector for the [Sequence](https://sequence.xyz/) wallet.
 
 ## Params
 
-* `chains` -- Chains supported by app.
 
-* `options.connect` -- Connection options for the default networkId, name of the app, etc...
-
+* `options.connectOptions` -- Connection options for the name of the app, projectAccessKey, etc...
+* `options.defaultNetwork` -- Starting network
+* `options.walletAppURL`   -- Url of sequence wallet to connect to
 
 ## Example of usage
 
 ```js
-  import { SequenceConnector } from '@0xsequence/wagmi-connector'
+  import { sequenceWallet } from '@0xsequence/wagmi-connector'
 
   const connectors = [
-    new SequenceConnector({
-      chains,
-      options: {
-        defaultNetwork: 137,
-
-        connect: {
-          app: 'Demo-app'
-        }
-      }
+    seqeunceWallet({
+      connectOptions: {
+        app: 'Demo-app',
+        projectAccessKey: '...'
+      },
+      defaultNetwork: 137,
     }),
     ...otherConnectors
   ]
