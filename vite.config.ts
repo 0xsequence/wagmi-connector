@@ -20,8 +20,9 @@ export default defineConfig({
     lib: {
       name: 'SequenceHIHIWagmiConnector',
       entry: path.resolve(__dirname, 'src/index.ts'),
-      formats: ['es', 'cjs'],
-      fileName: format => `${name}.${format}.js`,
+      formats: ['es' /*, 'cjs' */],
+      // fileName: format => `${name}.${format}.js`,
+      fileName: name,
     },
     outDir: path.resolve(__dirname, 'dist'),
     rollupOptions: {
