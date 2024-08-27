@@ -27,12 +27,12 @@
   "homepage": "https://github.com/0xsequence/wagmi-connector#readme",
   "peerDependencies": {
     "0xsequence": ">=1.1.0 <2.0.0",
-    "ethers": ">=5.5",
+    "ethers": ">=6.13.0",
     "viem": ">=2.0.0",
     "wagmi": ">=2.0.0"
   },
   "devDependencies": {
-    "0xsequence": "1.9.19",
+    "0xsequence": "2.0.0",
     "@types/node": "^20.12.7",
     "ethers": "^5.7.2",
     "prettier": "^3.2.5",
